@@ -5,32 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AutoMaster СТО — Ваш надійний автосервіс</title>
 
-  <!-- Зовнішні шрифти (підключаються через <link>) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 
-  <!--
-    ЛАБ. РОБОТА №2: КАСКАДНІ ТАБЛИЦІ СТИЛІВ
-    Підключення зовнішнього CSS-файлу через <link>
-    rel="stylesheet" — тип відношення
-    href="styles.css" — шлях до файлу стилів
-  -->
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  <!--
-    ДЕМОНСТРАЦІЯ КАСКАДУ — Вбудовані стилі (<style>)
-    Специфічність вища ніж у зовнішньому файлі.
-    Тут додаємо лише стилі, специфічні для цієї сторінки.
-  -->
   <style>
-    /*
-      Inline-стиль у <style> тегу — другий рівень каскаду.
-      Перевизначає зовнішній CSS при однаковій специфічності.
-      Тут додаємо лише те, що не потрапило до styles.css
-      (наприклад, SVG-фігура автомобіля в hero).
-    */
-
-    /* SVG car silhouette — унікальний елемент сторінки */
     .hero-car-svg {
       position: absolute;
       bottom: 20px;
@@ -41,9 +22,6 @@
 </head>
 <body>
 
-<!-- ================================================
-     AUTH МОДАЛЬНЕ ВІКНО
-     ================================================ -->
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-modal">
     <div class="auth-logo">AUTO<span>MASTER</span></div>
@@ -54,7 +32,6 @@
       <button class="auth-tab" onclick="switchTab('register')">Реєстрація</button>
     </div>
 
-    <!-- Форма входу -->
     <div class="auth-form" id="loginForm">
       <div class="auth-input-group">
         <label>Email</label>
@@ -68,7 +45,6 @@
       <button class="auth-btn" onclick="doLogin()">Увійти</button>
     </div>
 
-    <!-- Форма реєстрації -->
     <div class="auth-form hidden" id="registerForm">
       <div class="auth-input-group">
         <label>Ім'я</label>
@@ -88,17 +64,33 @@
   </div>
 </div>
 
-<!-- ================================================
-     НАВІГАЦІЯ
-     ================================================ -->
 <nav>
   <a href="#" class="nav-logo">AUTO<span>MASTER</span></a>
 
-  <ul class="nav-links">
-    <li><a href="#services">Послуги</a></li>
-    <li><a href="#how">Як це працює</a></li>
-    <li><a href="#reviews">Відгуки</a></li>
-    <li><a href="#cta">Контакти</a></li>
+  <ul class="menu menu--horizontal" id="mainMenu">
+    <li class="menu__item" data-section="top">
+      <a class="menu__link" href="#">Головна</a>
+    </li>
+    <li class="menu__item menu__item--dropdown" data-section="services">
+      <a class="menu__link" href="#services">Послуги</a>
+      <ul class="menu__dropdown">
+        <li class="menu__item"><a class="menu__link" href="#services">🔧 Технічне обслуговування</a></li>
+        <li class="menu__item"><a class="menu__link" href="#services">⚙️ Ремонт двигуна</a></li>
+        <li class="menu__item"><a class="menu__link" href="#services">🛞 Шиномонтаж</a></li>
+        <li class="menu__divider"></li>
+        <li class="menu__item"><a class="menu__link" href="#services">🔩 Ходова частина</a></li>
+        <li class="menu__item"><a class="menu__link" href="#services">⚡ Електрика</a></li>
+      </ul>
+    </li>
+    <li class="menu__item" data-section="how">
+      <a class="menu__link" href="#how">Як це працює</a>
+    </li>
+    <li class="menu__item" data-section="reviews">
+      <a class="menu__link" href="#reviews">Відгуки</a>
+    </li>
+    <li class="menu__item" data-section="cta">
+      <a class="menu__link" href="#cta">Контакти</a>
+    </li>
   </ul>
 
   <div class="nav-right">
@@ -108,11 +100,8 @@
   </div>
 </nav>
 
-<!-- ================================================
-     HERO СЕКЦІЯ
-     ================================================ -->
 <section id="hero">
-  <!-- Ліва колонка: текст -->
+
   <div class="hero-content">
     <div class="hero-label animate-in">Професійний Автосервіс</div>
 
@@ -133,12 +122,11 @@
     </div>
   </div>
 
-  <!-- Права колонка: зображення -->
   <div class="hero-image-box animate-in delay-2">
     <div class="hero-image">
       <div class="hero-image-inner">
         <div class="hero-car-icon">🔧</div>
-        <!-- SVG силует автомобіля -->
+
         <svg class="hero-car-svg" viewBox="0 0 380 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M60 120 C60 120 80 60 120 50 L200 40 L260 50 C300 55 320 120 320 120 L340 120 L340 140 L20 140 L20 120 Z" fill="#f5f3ef"/>
           <circle cx="100" cy="145" r="25" fill="#2a2d33" stroke="#f5f3ef" stroke-width="3"/>
@@ -151,7 +139,6 @@
       </div>
     </div>
 
-    <!-- Бейджі поверх зображення -->
     <div class="hero-badge">
       <div class="hero-badge-num">15+</div>
       <div class="hero-badge-text">Років досвіду</div>
@@ -167,9 +154,6 @@
   </div>
 </section>
 
-<!-- ================================================
-     ЛОГОТИПИ БРЕНДІВ
-     ================================================ -->
 <div id="logos">
   <div class="logos-inner">
     <div class="logo-item">TOYOTA</div>
@@ -182,9 +166,6 @@
   </div>
 </div>
 
-<!-- ================================================
-     ПОСЛУГИ
-     ================================================ -->
 <section id="services">
   <div class="section-header reveal">
     <div>
@@ -204,7 +185,6 @@
       <div class="service-text">Планове ТО, заміна масла та фільтрів, перевірка всіх систем автомобіля.</div>
     </div>
 
-    <!-- Модифікатор .featured — демонстрація каскаду -->
     <div class="service-card featured">
       <span class="service-icon">⚙️</span>
       <div class="service-name">Ремонт Двигуна</div>
@@ -229,23 +209,16 @@
       <div class="service-text">Комп'ютерна діагностика, ремонт електросистем та встановлення обладнання.</div>
     </div>
 
-    <!-- .dashed — інший модифікатор того ж базового класу -->
     <div class="service-card dashed">
       <span>+ Більше послуг</span>
     </div>
   </div>
 </section>
 
-<!-- ================================================
-     ЯК ЦЕ ПРАЦЮЄ
-     ================================================ -->
 <section id="how">
   <div class="how-steps reveal">
     <div class="section-label" style="margin-bottom:16px">Простий процес</div>
-    <!--
-      Вище — INLINE СТИЛЬ (третій рівень каскаду, найвища специфічність).
-      style="margin-bottom:16px" перевизначає будь-який CSS для margin-bottom.
-    -->
+
     <h2 class="section-title" style="margin-bottom:48px">ЯК ЦЕ<br>ПРАЦЮЄ</h2>
 
     <div class="how-step">
@@ -281,7 +254,6 @@
     </div>
   </div>
 
-  <!-- Телефонний мокап -->
   <div class="how-phone reveal">
     <div class="phone-mockup">
       <span class="phone-notch"></span>
@@ -311,9 +283,6 @@
   </div>
 </section>
 
-<!-- ================================================
-     СТАТИСТИКА
-     ================================================ -->
 <section id="stats">
   <div class="stats-inner">
     <div class="stat-item reveal">
@@ -335,9 +304,70 @@
   </div>
 </section>
 
-<!-- ================================================
-     ВІДГУКИ
-     ================================================ -->
+<section id="booking">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Онлайн запис</div>
+      <h2 class="section-title">ЗАПИС НА<br>СЕРВІС</h2>
+    </div>
+    <p class="section-desc">Заповніть форму і ми підтвердимо ваш запис протягом 15 хвилин.</p>
+  </div>
+
+  <div class="booking-wrap reveal">
+    <div class="booking-form-box">
+      <div class="booking-row">
+        <div class="booking-field">
+          <label class="booking-label" for="b-name">Ім'я</label>
+          <input class="booking-input" id="b-name" type="text" placeholder="Іван Петренко">
+        </div>
+        <div class="booking-field">
+          <label class="booking-label" for="b-phone">Телефон</label>
+          <input class="booking-input" id="b-phone" type="tel" placeholder="+38 (0__) ___-__-__">
+        </div>
+      </div>
+      <div class="booking-row">
+        <div class="booking-field">
+          <label class="booking-label" for="b-car">Автомобіль</label>
+          <input class="booking-input" id="b-car" type="text" placeholder="Toyota Camry 2020">
+        </div>
+        <div class="booking-field">
+          <label class="booking-label" for="b-date">Дата</label>
+          <input class="booking-input" id="b-date" type="date">
+        </div>
+      </div>
+      <div class="booking-field">
+        <label class="booking-label" for="b-service">Послуга</label>
+        <select class="booking-input booking-select" id="b-service">
+          <option value="">Оберіть послугу...</option>
+          <option value="Технічне обслуговування">Технічне обслуговування</option>
+          <option value="Ремонт двигуна">Ремонт двигуна</option>
+          <option value="Шиномонтаж">Шиномонтаж</option>
+          <option value="Ходова частина">Ходова частина</option>
+          <option value="Електрика">Електрика</option>
+          <option value="Діагностика">Діагностика</option>
+        </select>
+      </div>
+      <div class="booking-error" id="bookingError"></div>
+      <button class="btn-primary booking-btn" onclick="addBooking()">Додати запис</button>
+    </div>
+
+    <div class="booking-list-box">
+      <div class="booking-list-header">
+        <span class="booking-list-title">Мої записи</span>
+        <span class="booking-loader" id="bookingLoader">
+          <span class="loader-dot"></span>
+          <span class="loader-dot"></span>
+          <span class="loader-dot"></span>
+        </span>
+        <span class="booking-count" id="bookingCount">0 записів</span>
+      </div>
+      <div class="booking-list" id="bookingList">
+        <div class="booking-empty" id="bookingEmpty">Записів поки немає</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="reviews">
   <div class="section-header reveal">
     <div>
@@ -389,9 +419,6 @@
   </div>
 </section>
 
-<!-- ================================================
-     CTA СЕКЦІЯ
-     ================================================ -->
 <section id="cta">
   <div class="section-label cta-label reveal">Запишіться вже сьогодні</div>
   <h2 class="cta-title reveal">
@@ -407,18 +434,44 @@
   </div>
 </section>
 
-<!-- ================================================
-     FOOTER
-     ================================================ -->
 <footer>
-  <div class="footer-logo">AUTO<span>MASTER</span></div>
-  <div class="footer-text">© 2024 AutoMaster СТО. Всі права захищені.</div>
-  <div class="footer-text">Київ, вул. Механічна, 42</div>
+  <div class="footer-top">
+    <div class="footer-logo">AUTO<span>MASTER</span></div>
+
+    <div class="footer-nav">
+      <div class="footer-nav__col">
+        <div class="footer-nav__title">Послуги</div>
+        <ul class="menu menu--vertical">
+          <li class="menu__item"><a class="menu__link footer-link" href="#services">Технічне ТО</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#services">Ремонт двигуна</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#services">Шиномонтаж</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#services">Електрика</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav__col">
+        <div class="footer-nav__title">Компанія</div>
+        <ul class="menu menu--vertical">
+          <li class="menu__item"><a class="menu__link footer-link" href="#how">Про нас</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#reviews">Відгуки</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#cta">Контакти</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav__col">
+        <div class="footer-nav__title">Зв'язок</div>
+        <ul class="menu menu--vertical">
+          <li class="menu__item"><a class="menu__link footer-link" href="tel:+380441234567">📞 +38 (044) 123-45-67</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="mailto:info@automaster.ua">✉️ info@automaster.ua</a></li>
+          <li class="menu__item"><a class="menu__link footer-link" href="#cta">📍 Київ, вул. Механічна, 42</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">© 2024 AutoMaster СТО. Всі права захищені.</div>
 </footer>
 
-<!-- ================================================
-     JAVASCRIPT
-     ================================================ -->
 <script>
   /* ── AUTH (localStorage) ── */
   const USERS_KEY   = 'automaster_users';
@@ -523,10 +576,195 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  /* ── INIT ── */
+  const menuItems = document.querySelectorAll('#mainMenu .menu__item');
+  const sections = ['services', 'how', 'reviews', 'cta'];
+
+  function setActiveMenuItem(sectionId) {
+    menuItems.forEach(item => item.classList.remove('menu__item--active'));
+    const active = document.querySelector(`#mainMenu [data-section="${sectionId}"]`);
+    if (active) active.classList.add('menu__item--active');
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    let current = 'top';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop - 100 <= scrollY) current = id;
+    });
+    setActiveMenuItem(current);
+  });
+
+  setActiveMenuItem('top');
+
+  const bookings = [];
+
+  const API = 'https://jsonplaceholder.typicode.com';
+
+  function showLoader() {
+    $('#bookingLoader').css('display', 'flex');
+  }
+
+  function hideLoader() {
+    $('#bookingLoader').hide();
+  }
+
+  function renderCard(booking, prepend) {
+    const dateFormatted = new Date(booking.date).toLocaleDateString('uk-UA', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    const $card = $('<div>')
+            .addClass('booking-card')
+            .attr('data-id', booking.id)
+            .css({ opacity: 0, transform: 'translateY(10px)' })
+            .html(`
+        <div class="booking-card-top">
+          <span class="booking-card-service">${booking.service}</span>
+          <button class="booking-card-remove" data-id="${booking.id}">✕</button>
+        </div>
+        <div class="booking-card-name">${booking.name}</div>
+        <div class="booking-card-details">
+          <span>${booking.car}</span>
+          <span>${dateFormatted}</span>
+        </div>
+        <div class="booking-card-phone">${booking.phone}</div>
+      `);
+
+    if (prepend) {
+      $('#bookingList').prepend($card);
+    } else {
+      $('#bookingList').append($card);
+    }
+
+    setTimeout(() => {
+      $card.css({ transition: 'opacity 0.3s ease, transform 0.3s ease', opacity: 1, transform: 'translateY(0)' });
+    }, 10);
+  }
+
+  function updateBookingCount() {
+    const n = bookings.length;
+    const label = n === 1 ? 'запис' : n < 5 ? 'записи' : 'записів';
+    $('#bookingCount').text(`${n} ${label}`);
+    $('#bookingCount').css('color', n > 0 ? 'var(--color-red)' : '');
+  }
+
+  function loadInitialBookings() {
+    showLoader();
+    $.ajax({
+      url: API + '/posts?_limit=3',
+      method: 'GET',
+      success: function(data) {
+        const services = ['Діагностика', 'Технічне обслуговування', 'Шиномонтаж'];
+        const cars     = ['BMW 3 Series', 'Toyota Camry', 'Volkswagen Golf'];
+        const phones   = ['+38 (050) 123-45-67', '+38 (067) 234-56-78', '+38 (073) 345-67-89'];
+
+        data.forEach(function(post, i) {
+          const booking = {
+            id:      post.id,
+            name:    post.title.split(' ').slice(0, 2).join(' '),
+            phone:   phones[i],
+            car:     cars[i],
+            date:    new Date(Date.now() + (i + 1) * 86400000).toISOString().split('T')[0],
+            service: services[i]
+          };
+          bookings.push(booking);
+          renderCard(booking, false);
+        });
+
+        $('#bookingEmpty').remove();
+        updateBookingCount();
+        hideLoader();
+      },
+      error: function() {
+        hideLoader();
+      }
+    });
+  }
+
+  function addBooking() {
+    const name    = $('#b-name').val().trim();
+    const phone   = $('#b-phone').val().trim();
+    const car     = $('#b-car').val().trim();
+    const date    = $('#b-date').val();
+    const service = $('#b-service').val();
+
+    $('#bookingError').text('');
+
+    if (!name || !phone || !car || !date || !service) {
+      $('#bookingError').text('Заповніть усі поля');
+      return;
+    }
+
+    const btn = $('.booking-btn');
+    btn.prop('disabled', true).text('Відправляємо...');
+    showLoader();
+
+    $.ajax({
+      url: API + '/posts',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ title: name, body: service, userId: 1 }),
+      success: function(response) {
+        const booking = {
+          id:      Date.now(),
+          name, phone, car, date, service,
+          serverId: response.id
+        };
+        bookings.push(booking);
+
+        $('#bookingEmpty').remove();
+        renderCard(booking, true);
+        updateBookingCount();
+
+        $('#b-name, #b-phone, #b-car, #b-date, #b-service').val('');
+        btn.prop('disabled', false).text('Додати запис');
+        hideLoader();
+      },
+      error: function() {
+        $('#bookingError').text('Помилка сервера. Спробуйте ще раз.');
+        btn.prop('disabled', false).text('Додати запис');
+        hideLoader();
+      }
+    });
+  }
+
+  $(document).on('click', '.booking-card-remove', function() {
+    const id = parseInt($(this).data('id'));
+    const $card = $(this).closest('.booking-card');
+
+    showLoader();
+
+    $.ajax({
+      url: API + '/posts/1',
+      method: 'DELETE',
+      success: function() {
+        $card.css({ transition: 'opacity 0.3s ease, transform 0.3s ease', opacity: 0, transform: 'translateX(20px)' });
+
+        setTimeout(function() {
+          $card.remove();
+          const idx = bookings.findIndex(b => b.id === id);
+          if (idx !== -1) bookings.splice(idx, 1);
+          updateBookingCount();
+          hideLoader();
+
+          if ($('#bookingList').children().length === 0) {
+            $('#bookingList').html('<div class="booking-empty" id="bookingEmpty">Записів поки немає</div>');
+          }
+        }, 300);
+      },
+      error: function() {
+        hideLoader();
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    loadInitialBookings();
+  });
+
   updateNavUI();
 
-  /* Показати auth при першому завантаженні */
   setTimeout(() => {
     if (!getSession()) document.getElementById('authOverlay').classList.remove('hidden');
   }, 800);
