@@ -1,18 +1,5 @@
-/* =============================================================
-   AutoMaster СТО — Таблиця каскадних стилів
-   Лабораторна робота №2
-   Тема: Каскадні таблиці стилів (CSS)
-   ============================================================= */
-
-
-/* ─────────────────────────────────────────────
-   1. CSS ЗМІННІ (Custom Properties)
-   Визначаються в :root — глобальний scope
-   Демонструють механізм каскаду: дочірні елементи
-   успадковують змінні від батьківського :root
-───────────────────────────────────────────── */
 :root {
-  /* Кольорова палітра */
+
   --color-black:      #0a0a0a;
   --color-dark:       #111214;
   --color-card:       #1a1c20;
@@ -24,36 +11,24 @@
   --color-muted:      #7a7d85;
   --color-text:       #d0cec9;
 
-  /* Типографіка */
   --font-display:     'Bebas Neue', sans-serif;
   --font-condensed:   'Barlow Condensed', sans-serif;
   --font-body:        'Barlow', sans-serif;
 
-  /* Відступи */
   --spacing-xs:   8px;
   --spacing-sm:   16px;
   --spacing-md:   32px;
   --spacing-lg:   64px;
   --spacing-xl:   100px;
 
-  /* Радіуси */
   --radius-sm:  2px;
   --radius-md:  4px;
   --radius-lg:  12px;
 
-  /* Переходи */
   --transition-fast:   0.2s ease;
   --transition-medium: 0.4s ease;
 }
 
-
-/* ─────────────────────────────────────────────
-   2. СЕЛЕКТОРИ — Типи та специфічність
-   Специфічність (від низької до високої):
-   елемент (0,0,1) < клас (0,1,0) < id (1,0,0) < inline
-───────────────────────────────────────────── */
-
-/* Тип-селектор — найнижча специфічність */
 * {
   margin: 0;
   padding: 0;
@@ -72,7 +47,6 @@ body {
   line-height: 1.5;
 }
 
-/* Шум-текстура через псевдоелемент ::before */
 body::before {
   content: '';
   position: fixed;
@@ -83,66 +57,30 @@ body::before {
   opacity: 0.4;
 }
 
-/* Клас-селектор (.classname) — середня специфічність */
 .hidden {
   display: none !important;
 }
 
-/* Посилання */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-
-/* ─────────────────────────────────────────────
-   3. КАСКАД: успадкування (inheritance)
-   font-*, color, line-height успадковуються.
-   background, border — НЕ успадковуються.
-───────────────────────────────────────────── */
-
-/* Батьківський елемент — children успадкують font-family */
-.nav-links {
-  display: flex;
-  gap: var(--spacing-md);
-  list-style: none;
-  margin: 0 auto;
-  font-family: var(--font-condensed); /* успадковується дочірніми <a> */
-  font-size: 0.85rem;
-}
-
-/* Дочірній елемент успадковує font-family від .nav-links */
-.nav-links a {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--color-muted);          /* перевизначення кольору */
-  transition: color var(--transition-fast);
-}
-
-/* Псевдоклас :hover — змінює стиль при наведенні */
-.nav-links a:hover {
-  color: var(--color-white);
-}
-
-
-/* ─────────────────────────────────────────────
-   4. НАВІГАЦІЯ
-───────────────────────────────────────────── */
 nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(10, 10, 10, 0.92);
+  background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* vendor prefix для Safari */
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
   height: 64px;
   display: flex;
   align-items: center;
   padding: 0 40px;
+  overflow: visible;
 }
 
 .nav-logo {
@@ -153,9 +91,8 @@ nav {
   flex-shrink: 0;
 }
 
-/* Каскадний дочірній селектор: .nav-logo span */
 .nav-logo span {
-  color: var(--color-red); /* перевизначає успадкований color */
+  color: var(--color-red);
 }
 
 .nav-right {
@@ -171,7 +108,6 @@ nav {
   letter-spacing: 1px;
 }
 
-/* Кнопка-посилання */
 .nav-cta {
   background: var(--color-red);
   color: var(--color-white);
@@ -204,20 +140,11 @@ nav {
   transition: border-color var(--transition-fast), color var(--transition-fast);
 }
 
-/* Псевдоклас :hover на .logout-btn */
 .logout-btn:hover {
   border-color: var(--color-red);
   color: var(--color-red);
 }
 
-
-/* ─────────────────────────────────────────────
-   5. ПСЕВДОЕЛЕМЕНТИ ТА ПСЕВДОКЛАСИ
-   ::before / ::after — генерований контент
-   :hover / :focus / :first-child / :nth-child
-───────────────────────────────────────────── */
-
-/* ::before — декоративна вертикальна лінія */
 .auth-modal::before {
   content: '';
   position: absolute;
@@ -229,7 +156,6 @@ nav {
   border-radius: var(--radius-md) 0 0 var(--radius-md);
 }
 
-/* ::before з текстом для лейблів секцій */
 .section-label::before {
   content: '';
   display: inline-block;
@@ -250,7 +176,6 @@ nav {
   margin-right: 12px;
 }
 
-/* ::after для анімованого підкреслення карток */
 .service-card::after {
   content: '';
   position: absolute;
@@ -266,12 +191,10 @@ nav {
   width: 100%;
 }
 
-/* :nth-child — кожна парна картка відгуку */
 .review-card:nth-child(even) {
-  margin-top: 24px; /* зміщення для візуального ефекту */
+  margin-top: 24px;
 }
 
-/* :first-child / :last-child */
 .how-step:last-child {
   border-bottom: none;
 }
@@ -280,10 +203,6 @@ nav {
   border-right: none;
 }
 
-
-/* ─────────────────────────────────────────────
-   6. AUTH МОДАЛЬНЕ ВІКНО
-───────────────────────────────────────────── */
 .auth-overlay {
   position: fixed;
   inset: 0;
@@ -348,7 +267,6 @@ nav {
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-/* :focus — доступність (accessibility) */
 .auth-tab:focus {
   outline: 2px solid var(--color-red);
   outline-offset: 2px;
@@ -387,7 +305,6 @@ nav {
   transition: border-color var(--transition-fast);
 }
 
-/* :focus-within — батьківський елемент коли дочірній в фокусі */
 .auth-input-group:focus-within label {
   color: var(--color-red);
 }
@@ -396,7 +313,6 @@ nav {
   border-color: var(--color-red);
 }
 
-/* ::placeholder — стилізація placeholder тексту */
 .auth-input::placeholder {
   color: var(--color-border);
   font-style: italic;
@@ -421,7 +337,6 @@ nav {
   transform: translateY(-1px);
 }
 
-/* :active — стан при кліку */
 .auth-btn:active {
   transform: translateY(0);
 }
@@ -434,10 +349,6 @@ nav {
   letter-spacing: 0.5px;
 }
 
-
-/* ─────────────────────────────────────────────
-   7. HERO СЕКЦІЯ
-───────────────────────────────────────────── */
 #hero {
   min-height: 100vh;
   padding-top: 64px;
@@ -451,7 +362,6 @@ nav {
   position: relative;
 }
 
-/* Псевдоелемент ::after для фонового градієнту */
 #hero::after {
   content: '';
   position: absolute;
@@ -478,14 +388,13 @@ nav {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 8vw, 7rem); /* clamp() — адаптивний розмір */
+  font-size: clamp(4rem, 8vw, 7rem);
   line-height: 0.92;
   color: var(--color-white);
   letter-spacing: 2px;
   margin-bottom: 28px;
 }
 
-/* Каскадний дочірній: .hero-title .accent */
 .hero-title .accent {
   color: var(--color-red);
 }
@@ -505,7 +414,6 @@ nav {
   flex-wrap: wrap;
 }
 
-/* Спільні стилі для обох кнопок через групування */
 .btn-primary,
 .btn-secondary {
   font-family: var(--font-display);
@@ -541,7 +449,6 @@ nav {
   transform: translateY(-2px);
 }
 
-/* Hero Image */
 .hero-image {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -574,7 +481,6 @@ nav {
   background: linear-gradient(135deg, rgba(230, 51, 41, 0.05) 0%, transparent 50%);
 }
 
-/* Бейджі позиціонуються абсолютно відносно .hero-image-box */
 .hero-image-box {
   position: relative;
 }
@@ -634,10 +540,6 @@ nav {
   color: var(--color-muted);
 }
 
-
-/* ─────────────────────────────────────────────
-   8. ЛОГОТИПИ (Logos bar)
-───────────────────────────────────────────── */
 #logos {
   padding: 32px 80px;
   border-top: 1px solid var(--color-border);
@@ -665,15 +567,10 @@ nav {
   color: var(--color-muted);
 }
 
-
-/* ─────────────────────────────────────────────
-   9. СЕКЦІЇ — загальні стилі
-───────────────────────────────────────────── */
 section {
   position: relative;
 }
 
-/* Перевикористовуваний клас заголовка секції */
 .section-header {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -711,10 +608,6 @@ section {
   align-self: end;
 }
 
-
-/* ─────────────────────────────────────────────
-   10. ПОСЛУГИ
-───────────────────────────────────────────── */
 #services {
   padding: var(--spacing-xl) 80px;
 }
@@ -742,19 +635,16 @@ section {
   background: var(--color-card);
 }
 
-/* Модифікатор BEM: .service-card--featured */
 .service-card.featured {
   background: var(--color-red);
 }
 
-/* Каскад: .service-card.featured дочірні елементи */
 .service-card.featured .service-icon,
 .service-card.featured .service-name,
 .service-card.featured .service-text {
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Пунктирна карта */
 .service-card.dashed {
   background: transparent;
   border: 2px dashed var(--color-border);
@@ -795,10 +685,6 @@ section {
   font-weight: 300;
 }
 
-
-/* ─────────────────────────────────────────────
-   11. ЯК ЦЕ ПРАЦЮЄ
-───────────────────────────────────────────── */
 #how {
   padding: var(--spacing-xl) 80px;
   background: var(--color-dark);
@@ -830,7 +716,6 @@ section {
   transition: color var(--transition-fast);
 }
 
-/* Каскад через батька: .how-step:hover > .how-step-num */
 .how-step:hover .how-step-num {
   color: var(--color-red);
 }
@@ -852,7 +737,6 @@ section {
   font-weight: 300;
 }
 
-/* Телефонний мокап */
 .how-phone {
   display: flex;
   justify-content: center;
@@ -910,7 +794,6 @@ section {
   margin-bottom: 10px;
 }
 
-/* :nth-child для рядків телефону */
 .phone-row:nth-child(odd) {
   width: 85%;
 }
@@ -965,10 +848,6 @@ section {
   margin-bottom: 8px;
 }
 
-
-/* ─────────────────────────────────────────────
-   12. СТАТИСТИКА (банер)
-───────────────────────────────────────────── */
 #stats {
   background: var(--color-red);
   overflow: hidden;
@@ -1007,10 +886,6 @@ section {
   display: block;
 }
 
-
-/* ─────────────────────────────────────────────
-   13. ВІДГУКИ
-───────────────────────────────────────────── */
 #reviews {
   padding: var(--spacing-xl) 80px;
 }
@@ -1083,10 +958,6 @@ section {
   color: var(--color-muted);
 }
 
-
-/* ─────────────────────────────────────────────
-   14. CTA СЕКЦІЯ
-───────────────────────────────────────────── */
 #cta {
   padding: 120px 80px;
   text-align: center;
@@ -1142,26 +1013,37 @@ section {
   margin-bottom: 20px;
 }
 
-
-/* ─────────────────────────────────────────────
-   15. FOOTER
-───────────────────────────────────────────── */
 footer {
   background: var(--color-black);
   border-top: 1px solid var(--color-border);
-  padding: 24px 80px;
+  padding: 60px 80px 32px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  flex-direction: column;
+  gap: 0;
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  padding-bottom: 40px;
+}
+
+.footer-bottom {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  letter-spacing: 1px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
 }
 
 .footer-logo {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   letter-spacing: 3px;
   color: var(--color-muted);
+  flex-shrink: 0;
 }
 
 .footer-logo span {
@@ -1175,9 +1057,6 @@ footer {
 }
 
 
-/* ─────────────────────────────────────────────
-   16. АНІМАЦІЇ (@keyframes)
-───────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -1194,7 +1073,6 @@ footer {
   }
 }
 
-/* Утиліти анімацій */
 .animate-in {
   animation: slideUp 0.6s ease forwards;
   opacity: 0;
@@ -1205,7 +1083,6 @@ footer {
 .delay-3 { animation-delay: 0.3s; }
 .delay-4 { animation-delay: 0.4s; }
 
-/* Scroll-reveal */
 .reveal {
   opacity: 0;
   transform: translateY(20px);
@@ -1217,10 +1094,6 @@ footer {
   transform: translateY(0);
 }
 
-
-/* ─────────────────────────────────────────────
-   17. КАСТОМНИЙ СКРОЛБАР
-───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -1238,14 +1111,6 @@ footer {
   background: var(--color-red);
 }
 
-
-/* ─────────────────────────────────────────────
-   18. МЕДІА-ЗАПИТИ (Responsive Design)
-   Демонструє каскад: медіа-запити перевизначають
-   базові стилі при певних умовах
-───────────────────────────────────────────── */
-
-/* Планшет (≤ 1024px) */
 @media (max-width: 1024px) {
   #hero {
     grid-template-columns: 1fr;
@@ -1286,7 +1151,6 @@ footer {
     margin: 0 auto;
   }
 
-  /* При планшеті скасовуємо зміщення парних карток */
   .review-card:nth-child(even) {
     margin-top: 0;
   }
@@ -1296,13 +1160,12 @@ footer {
   }
 }
 
-/* Мобільний (≤ 768px) */
 @media (max-width: 768px) {
   nav {
     padding: 0 20px;
   }
 
-  .nav-links { display: none; }
+  .menu--horizontal { display: none; }
 
   #hero {
     padding: 100px 20px 60px;
@@ -1317,9 +1180,16 @@ footer {
   }
 
   footer {
-    padding: 24px 20px;
+    padding: 40px 20px 24px;
+  }
+
+  .footer-top {
     flex-direction: column;
-    text-align: center;
+    gap: 40px;
+  }
+
+  .footer-nav {
+    flex-wrap: wrap;
   }
 
   .services-grid {
@@ -1337,4 +1207,594 @@ footer {
   #how {
     padding: 60px 20px;
   }
+}
+
+h1 {
+  font-family:     var(--font-display);
+  font-size:       clamp(4rem, 8vw, 7rem);
+  font-weight:     400;
+  font-style:      normal;
+  line-height:     0.92;
+  letter-spacing:  2px;
+  text-transform:  uppercase;
+  color:           var(--color-white);
+}
+
+h2 {
+  font-family:     var(--font-display);
+  font-size:       clamp(2.5rem, 5vw, 4rem);
+  font-weight:     400;
+  font-style:      normal;
+  line-height:     0.95;
+  letter-spacing:  1px;
+  text-transform:  uppercase;
+  color:           var(--color-white);
+}
+
+h3 {
+  font-family:     var(--font-condensed);
+  font-size:       1.4rem;
+  font-weight:     700;
+  font-style:      normal;
+  line-height:     1.3;
+  letter-spacing:  1.5px;
+  text-transform:  uppercase;
+  color:           var(--color-white);
+}
+
+p {
+  font-family:     var(--font-body);
+  font-size:       1rem;
+  font-weight:     300;
+  font-style:      normal;
+  line-height:     1.7;
+  letter-spacing:  0.2px;
+  word-spacing:    1px;
+  color:           var(--color-text);
+}
+
+.text-italic {
+  font-style:      italic;
+  color:           var(--color-muted);
+}
+
+.text-caps {
+  font-variant:    small-caps;
+  font-family:     var(--font-condensed);
+  font-size:       0.9rem;
+  letter-spacing:  2px;
+  color:           var(--color-muted);
+}
+
+.text-highlight {
+  font-weight:     600;
+  color:           var(--color-red);
+  text-decoration: underline;
+  text-decoration-style:  dotted;
+  text-decoration-color:  var(--color-red);
+  text-underline-offset:  4px;
+}
+
+.text-shadow {
+  text-shadow: 0 2px 8px rgba(230, 51, 41, 0.4);
+}
+
+.text-indent {
+  text-indent:   2em;
+  text-align:    justify;
+}
+
+blockquote {
+  font-family:     var(--font-body);
+  font-size:       1.1rem;
+  font-style:      italic;
+  font-weight:     300;
+  line-height:     1.8;
+  letter-spacing:  0.5px;
+  color:           var(--color-muted);
+  border-left:     3px solid var(--color-red);
+  padding-left:    20px;
+  margin:          16px 0;
+}
+
+.badge {
+  font-family:     var(--font-condensed);
+  font-size:       0.7rem;
+  font-weight:     700;
+  font-style:      normal;
+  text-transform:  uppercase;
+  letter-spacing:  3px;
+  white-space:     nowrap;
+}
+
+a {
+  font-family:     inherit;
+  color:           inherit;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      color var(--transition-fast),
+  text-decoration-color var(--transition-fast);
+}
+
+a:link {
+  color:           var(--color-text);
+}
+
+a:visited {
+  color:           var(--color-muted);
+}
+
+a:hover {
+  color:           var(--color-white);
+}
+
+a:active {
+  color:           var(--color-red);
+  transform:       scale(0.98);
+}
+
+a:focus {
+  outline:         2px solid var(--color-red);
+  outline-offset:  3px;
+  border-radius:   var(--radius-sm);
+}
+
+.footer-link {
+  font-family:     var(--font-condensed);
+  font-size:       0.8rem;
+  font-weight:     600;
+  letter-spacing:  1.5px;
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           var(--color-muted);
+}
+
+.footer-link:link    { color: var(--color-muted);  }
+.footer-link:visited { color: var(--color-border);
+  text-decoration: line-through;  }
+.footer-link:hover   { color: var(--color-white);
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px; }
+.footer-link:active  { color: var(--color-red); }
+
+.text-link {
+  font-weight:          500;
+  color:                var(--color-red);
+  text-decoration:      underline;
+  text-decoration-style: solid;
+  text-underline-offset: 3px;
+}
+
+.text-link:link    { color: var(--color-red); }
+.text-link:visited { color: var(--color-orange); }
+.text-link:hover   {
+  color:                var(--color-red-dark);
+  text-decoration-style: wavy;
+}
+.text-link:active  { color: var(--color-white); }
+
+.btn-primary:link,
+.btn-primary:visited {
+  color:           var(--color-white);
+  text-decoration: none;
+}
+
+.btn-secondary:link,
+.btn-secondary:visited {
+  color:           var(--color-white);
+  text-decoration: none;
+}
+
+.menu {
+  list-style:      none;
+  list-style-type: none;
+  margin:          0;
+  padding:         0;
+}
+
+.menu--horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.menu__item {
+  position: relative;
+}
+
+.menu__link {
+
+  font-family:     var(--font-condensed);
+  font-size:       0.82rem;
+  font-weight:     700;
+  font-style:      normal;
+  text-transform:  uppercase;
+  letter-spacing:  2px;
+  text-decoration: none;
+  white-space:     nowrap;
+
+  display:         block;
+  padding:         10px 16px;
+  border-radius:   var(--radius-sm);
+
+  color:           var(--color-muted);
+  background:      transparent;
+
+  transition:      color            var(--transition-fast),
+  background       var(--transition-fast),
+  letter-spacing   var(--transition-fast);
+}
+
+.menu__link:link    { color: var(--color-muted);  }
+.menu__link:visited { color: var(--color-muted);  }
+.menu__link:hover   {
+  color:           var(--color-white);
+  background:      rgba(255, 255, 255, 0.05);
+  letter-spacing:  2.5px;
+}
+.menu__link:active  { color: var(--color-red); }
+
+.menu__item--active .menu__link {
+  color:           var(--color-white);
+  background:      rgba(230, 51, 41, 0.1);
+  border-bottom:   2px solid var(--color-red);
+}
+
+.menu__item--dropdown > .menu__link::after {
+  content:         ' ▾';
+  font-size:       0.65rem;
+  opacity:         0.6;
+  transition:      transform var(--transition-fast);
+  display:         inline-block;
+}
+
+.menu__item--dropdown:hover > .menu__link::after {
+  transform:       rotate(180deg);
+}
+
+.menu__dropdown {
+  list-style:      none;
+  margin:          0;
+  padding:         8px 0;
+
+  position:        absolute;
+  top:             calc(100% + 8px);
+  left:            0;
+  min-width:       200px;
+  z-index:         200;
+
+  background:      var(--color-card);
+  border:          1px solid var(--color-border);
+  border-radius:   var(--radius-md);
+  box-shadow:      0 16px 40px rgba(0, 0, 0, 0.4);
+
+  opacity:         0;
+  visibility:      hidden;
+  transform:       translateY(-8px);
+  transition:      opacity        var(--transition-fast),
+  visibility     var(--transition-fast),
+  transform      var(--transition-fast);
+}
+
+.menu__item--dropdown:hover .menu__dropdown {
+  opacity:         1;
+  visibility:      visible;
+  transform:       translateY(0);
+}
+
+.menu__dropdown .menu__link {
+  font-size:       0.8rem;
+  letter-spacing:  1.5px;
+  padding:         10px 20px;
+  border-radius:   0;
+  border-left:     2px solid transparent;
+}
+
+.menu__dropdown .menu__link:hover {
+  background:      rgba(230, 51, 41, 0.08);
+  border-left-color: var(--color-red);
+  letter-spacing:  1.5px;
+}
+
+.menu__divider {
+  height:          1px;
+  background:      var(--color-border);
+  margin:          6px 0;
+  list-style:      none;
+}
+
+.menu--vertical {
+  display:         flex;
+  flex-direction:  column;
+  gap:             2px;
+}
+
+.menu--vertical .menu__link {
+  font-size:       0.8rem;
+  padding:         8px 12px;
+  letter-spacing:  1.5px;
+  border-left:     2px solid transparent;
+  transition:      color            var(--transition-fast),
+  border-color     var(--transition-fast),
+  padding-left     var(--transition-fast);
+}
+
+.menu--vertical .menu__link:hover {
+  border-left-color: var(--color-red);
+  padding-left:    18px;
+  background:      transparent;
+  letter-spacing:  1.5px;
+}
+
+.footer-nav {
+  display:         flex;
+  gap:             40px;
+  flex-wrap:       wrap;
+  align-items:     flex-start;
+}
+
+.footer-nav__col {
+  display:         flex;
+  flex-direction:  column;
+  gap:             4px;
+}
+
+.footer-nav__title {
+  font-family:     var(--font-condensed);
+  font-size:       0.7rem;
+  font-weight:     700;
+  text-transform:  uppercase;
+  letter-spacing:  3px;
+  color:           var(--color-muted);
+  margin-bottom:   10px;
+}
+#booking {
+  padding: var(--spacing-xl) 80px;
+  background: var(--color-dark);
+}
+
+.booking-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.booking-form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.booking-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-label {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-muted);
+}
+
+.booking-input {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  width: 100%;
+}
+
+.booking-input:focus {
+  border-color: var(--color-red);
+}
+
+.booking-input::placeholder {
+  color: var(--color-border);
+}
+
+.booking-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7d85' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.booking-select option {
+  background: var(--color-card);
+  color: var(--color-white);
+}
+
+.booking-error {
+  font-size: 0.8rem;
+  color: var(--color-red);
+  min-height: 18px;
+  font-family: var(--font-condensed);
+  letter-spacing: 0.5px;
+}
+
+.booking-btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.booking-list-box {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.booking-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.booking-list-title {
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-white);
+}
+
+.booking-count {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+  transition: color var(--transition-fast);
+}
+
+.booking-list {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.booking-empty {
+  font-size: 0.85rem;
+  color: var(--color-border);
+  text-align: center;
+  padding: 40px 0;
+  font-family: var(--font-condensed);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.booking-card {
+  background: var(--color-dark);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  transition: border-color var(--transition-fast);
+}
+
+.booking-card:hover {
+  border-color: var(--color-red);
+}
+
+.booking-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.booking-card-service {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-red);
+}
+
+.booking-card-remove {
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  line-height: 1;
+}
+
+.booking-card-remove:hover {
+  color: var(--color-red);
+  background: rgba(230, 51, 41, 0.1);
+}
+
+.booking-card-name {
+  font-family: var(--font-condensed);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.booking-card-details {
+  display: flex;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.booking-card-phone {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 1024px) {
+  #booking {
+    padding: var(--spacing-xl) 40px;
+  }
+  .booking-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  #booking {
+    padding: 60px 20px;
+  }
+  .booking-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.booking-loader {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.loader-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--color-red);
+  border-radius: 50%;
+  animation: loaderPulse 1.2s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(2) { animation-delay: 0.2s; }
+.loader-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loaderPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40%           { opacity: 1;   transform: scale(1);   }
 }
