@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoMaster СТО — Ваш надійний автосервіс</title>
+
+  <!-- Зовнішні шрифти (підключаються через <link>) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+  <!--
+    ЛАБ. РОБОТА №2: КАСКАДНІ ТАБЛИЦІ СТИЛІВ
+    Підключення зовнішнього CSS-файлу через <link>
+    rel="stylesheet" — тип відношення
+    href="styles.css" — шлях до файлу стилів
+  -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!--
+    ДЕМОНСТРАЦІЯ КАСКАДУ — Вбудовані стилі (<style>)
+    Специфічність вища ніж у зовнішньому файлі.
+    Тут додаємо лише стилі, специфічні для цієї сторінки.
+  -->
+  <style>
+    /*
+      Inline-стиль у <style> тегу — другий рівень каскаду.
+      Перевизначає зовнішній CSS при однаковій специфічності.
+      Тут додаємо лише те, що не потрапило до styles.css
+      (наприклад, SVG-фігура автомобіля в hero).
+    */
+
+    /* SVG car silhouette — унікальний елемент сторінки */
+    .hero-car-svg {
+      position: absolute;
+      bottom: 20px;
+      opacity: 0.18;
+      width: 380px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     AUTH МОДАЛЬНЕ ВІКНО
+     ================================================ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal">
+    <div class="auth-logo">AUTO<span>MASTER</span></div>
+    <div class="auth-subtitle">Особистий кабінет</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Вхід</button>
+      <button class="auth-tab" onclick="switchTab('register')">Реєстрація</button>
+    </div>
+
+    <!-- Форма входу -->
+    <div class="auth-form" id="loginForm">
+      <div class="auth-input-group">
+        <label>Email</label>
+        <input type="email" class="auth-input" id="loginEmail" placeholder="your@email.com">
+      </div>
+      <div class="auth-input-group">
+        <label>Пароль</label>
+        <input type="password" class="auth-input" id="loginPass" placeholder="••••••••">
+      </div>
+      <div class="auth-error" id="loginError"></div>
+      <button class="auth-btn" onclick="doLogin()">Увійти</button>
+    </div>
+
+    <!-- Форма реєстрації -->
+    <div class="auth-form hidden" id="registerForm">
+      <div class="auth-input-group">
+        <label>Ім'я</label>
+        <input type="text" class="auth-input" id="regName" placeholder="Ваше ім'я">
+      </div>
+      <div class="auth-input-group">
+        <label>Email</label>
+        <input type="email" class="auth-input" id="regEmail" placeholder="your@email.com">
+      </div>
+      <div class="auth-input-group">
+        <label>Пароль</label>
+        <input type="password" class="auth-input" id="regPass" placeholder="мін. 6 символів">
+      </div>
+      <div class="auth-error" id="regError"></div>
+      <button class="auth-btn" onclick="doRegister()">Зареєструватись</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     НАВІГАЦІЯ
+     ================================================ -->
+<nav>
+  <a href="#" class="nav-logo">AUTO<span>MASTER</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Послуги</a></li>
+    <li><a href="#how">Як це працює</a></li>
+    <li><a href="#reviews">Відгуки</a></li>
+    <li><a href="#cta">Контакти</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <span class="nav-user" id="navUser"></span>
+    <button class="logout-btn" id="logoutBtn" onclick="doLogout()" style="display:none">Вийти</button>
+    <a href="#" class="nav-cta" onclick="openAuth(event)" id="navAuthBtn">Записатись</a>
+  </div>
+</nav>
+
+<!-- ================================================
+     HERO СЕКЦІЯ
+     ================================================ -->
+<section id="hero">
+  <!-- Ліва колонка: текст -->
+  <div class="hero-content">
+    <div class="hero-label animate-in">Професійний Автосервіс</div>
+
+    <h1 class="hero-title animate-in delay-1">
+      РЕМОНТ<br>
+      ВАШОГО<br>
+      <span class="accent">АВТО</span>
+    </h1>
+
+    <p class="hero-desc animate-in delay-2">
+      Сертифіковані майстри, оригінальні запчастини та гарантія якості на всі роботи.
+      Понад 15 років досвіду на ринку автосервісу.
+    </p>
+
+    <div class="hero-btns animate-in delay-3">
+      <a href="#cta" class="btn-primary">Записатись онлайн</a>
+      <a href="#services" class="btn-secondary">Наші послуги</a>
+    </div>
+  </div>
+
+  <!-- Права колонка: зображення -->
+  <div class="hero-image-box animate-in delay-2">
+    <div class="hero-image">
+      <div class="hero-image-inner">
+        <div class="hero-car-icon">🔧</div>
+        <!-- SVG силует автомобіля -->
+        <svg class="hero-car-svg" viewBox="0 0 380 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 120 C60 120 80 60 120 50 L200 40 L260 50 C300 55 320 120 320 120 L340 120 L340 140 L20 140 L20 120 Z" fill="#f5f3ef"/>
+          <circle cx="100" cy="145" r="25" fill="#2a2d33" stroke="#f5f3ef" stroke-width="3"/>
+          <circle cx="280" cy="145" r="25" fill="#2a2d33" stroke="#f5f3ef" stroke-width="3"/>
+          <circle cx="100" cy="145" r="10" fill="#f5f3ef"/>
+          <circle cx="280" cy="145" r="10" fill="#f5f3ef"/>
+          <path d="M130 85 L170 50 L210 50 L240 85 Z" fill="#1a1c20" stroke="#2a2d33"/>
+        </svg>
+        <div class="hero-image-overlay"></div>
+      </div>
+    </div>
+
+    <!-- Бейджі поверх зображення -->
+    <div class="hero-badge">
+      <div class="hero-badge-num">15+</div>
+      <div class="hero-badge-text">Років досвіду</div>
+    </div>
+
+    <div class="hero-badge2">
+      <div class="hero-badge2-icon">⭐</div>
+      <div>
+        <div class="hero-badge2-val">4.9 / 5.0</div>
+        <div class="hero-badge2-text">Рейтинг клієнтів</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     ЛОГОТИПИ БРЕНДІВ
+     ================================================ -->
+<div id="logos">
+  <div class="logos-inner">
+    <div class="logo-item">TOYOTA</div>
+    <div class="logo-item">BMW</div>
+    <div class="logo-item">MERCEDES</div>
+    <div class="logo-item">VOLKSWAGEN</div>
+    <div class="logo-item">AUDI</div>
+    <div class="logo-item">FORD</div>
+    <div class="logo-item">KIA</div>
+  </div>
+</div>
+
+<!-- ================================================
+     ПОСЛУГИ
+     ================================================ -->
+<section id="services">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Що ми робимо</div>
+      <h2 class="section-title">НАШІ<br>ПОСЛУГИ</h2>
+    </div>
+    <p class="section-desc">
+      Ми надаємо повний спектр послуг з обслуговування та ремонту автомобілів
+      будь-яких марок і моделей.
+    </p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">🔧</span>
+      <div class="service-name">Технічне Обслуговування</div>
+      <div class="service-text">Планове ТО, заміна масла та фільтрів, перевірка всіх систем автомобіля.</div>
+    </div>
+
+    <!-- Модифікатор .featured — демонстрація каскаду -->
+    <div class="service-card featured">
+      <span class="service-icon">⚙️</span>
+      <div class="service-name">Ремонт Двигуна</div>
+      <div class="service-text">Діагностика та капітальний ремонт двигунів будь-якої складності.</div>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🛞</span>
+      <div class="service-name">Шиномонтаж</div>
+      <div class="service-text">Заміна, балансування та ремонт шин. Сезонне зберігання коліс.</div>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🔩</span>
+      <div class="service-name">Ходова частина</div>
+      <div class="service-text">Ремонт підвіски, рульового управління, амортизаторів та пружин.</div>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">⚡</span>
+      <div class="service-name">Електрика</div>
+      <div class="service-text">Комп'ютерна діагностика, ремонт електросистем та встановлення обладнання.</div>
+    </div>
+
+    <!-- .dashed — інший модифікатор того ж базового класу -->
+    <div class="service-card dashed">
+      <span>+ Більше послуг</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     ЯК ЦЕ ПРАЦЮЄ
+     ================================================ -->
+<section id="how">
+  <div class="how-steps reveal">
+    <div class="section-label" style="margin-bottom:16px">Простий процес</div>
+    <!--
+      Вище — INLINE СТИЛЬ (третій рівень каскаду, найвища специфічність).
+      style="margin-bottom:16px" перевизначає будь-який CSS для margin-bottom.
+    -->
+    <h2 class="section-title" style="margin-bottom:48px">ЯК ЦЕ<br>ПРАЦЮЄ</h2>
+
+    <div class="how-step">
+      <div class="how-step-num">01</div>
+      <div>
+        <div class="how-step-title">Залиште заявку онлайн</div>
+        <div class="how-step-text">Заповніть форму на сайті або зателефонуйте нам. Оберіть зручний час для візиту.</div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="how-step-num">02</div>
+      <div>
+        <div class="how-step-title">Безкоштовна діагностика</div>
+        <div class="how-step-text">Наші майстри проведуть комплексну діагностику та нададуть детальний кошторис.</div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="how-step-num">03</div>
+      <div>
+        <div class="how-step-title">Виконання робіт</div>
+        <div class="how-step-text">Ремонт виконується у строк із регулярним оновленням статусу через SMS або застосунок.</div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="how-step-num">04</div>
+      <div>
+        <div class="how-step-title">Гарантія та видача авто</div>
+        <div class="how-step-text">Надаємо гарантію на всі роботи до 12 місяців. Авто готове до поїздки!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Телефонний мокап -->
+  <div class="how-phone reveal">
+    <div class="phone-mockup">
+      <span class="phone-notch"></span>
+      <div class="phone-header">
+        <div class="phone-header-text">AutoMaster App</div>
+        <span class="phone-header-sub">Статус вашого авто</span>
+      </div>
+      <div class="phone-body">
+        <div class="phone-row"></div>
+        <div class="phone-row"></div>
+        <div class="phone-card">
+          <div class="phone-card-title">🔧 Заміна масла</div>
+          <div class="phone-progress-bar">
+            <div class="phone-progress-fill"></div>
+            <span class="phone-progress-label">70%</span>
+          </div>
+          <div class="phone-mini-row"></div>
+          <div class="phone-mini-row" style="width:60%"></div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="phone-mini-row"></div>
+          <div class="phone-mini-row"></div>
+          <div class="phone-mini-row" style="width:60%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     СТАТИСТИКА
+     ================================================ -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <span class="stat-num">8500+</span>
+      <span class="stat-label">Задоволених клієнтів</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">15</span>
+      <span class="stat-label">Років на ринку</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">98%</span>
+      <span class="stat-label">Позитивних відгуків</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">24/7</span>
+      <span class="stat-label">Підтримка клієнтів</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     ВІДГУКИ
+     ================================================ -->
+<section id="reviews">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Відгуки клієнтів</div>
+      <h2 class="section-title">ЩО<br>КАЖУТЬ</h2>
+    </div>
+    <p class="section-desc">
+      Понад 8500 клієнтів довіряють нам свої автомобілі.
+      Ось що вони говорять про нашу роботу.
+    </p>
+  </div>
+
+  <div class="reviews-grid reveal">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Здавав BMW на діагностику. Майстри швидко знайшли проблему та якісно усунули. Вартість адекватна, все без сюрпризів. Тепер їздю тільки до них!</p>
+      <div class="review-author">
+        <div class="review-avatar">ДМ</div>
+        <div>
+          <div class="review-name">Дмитро Мельник</div>
+          <div class="review-car">BMW 5 Series, 2019</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Робила ТО та заміну гальм на Toyota. Все зробили за 2 години, як і обіцяли. Менеджер тримала в курсі кожного кроку — дуже зручно!</p>
+      <div class="review-author">
+        <div class="review-avatar">ОК</div>
+        <div>
+          <div class="review-name">Олена Коваль</div>
+          <div class="review-car">Toyota Camry, 2021</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Ремонтував двигун Volkswagen після складної аварії. Зробили якісно, дали гарантію. Ціна трохи вища за ринок, але якість того варта.</p>
+      <div class="review-author">
+        <div class="review-avatar">АС</div>
+        <div>
+          <div class="review-name">Андрій Савченко</div>
+          <div class="review-car">Volkswagen Passat, 2018</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     CTA СЕКЦІЯ
+     ================================================ -->
+<section id="cta">
+  <div class="section-label cta-label reveal">Запишіться вже сьогодні</div>
+  <h2 class="cta-title reveal">
+    ВАШЕ АВТО<br>ЗАСЛУГОВУЄ<br><span class="accent">КРАЩОГО</span>
+  </h2>
+  <p class="cta-text reveal">
+    Залиште заявку онлайн та отримайте безкоштовну діагностику при першому візиті.
+    Наші майстри готові допомогти!
+  </p>
+  <div class="cta-btns reveal">
+    <a href="tel:+380441234567" class="btn-primary">📞 +38 (044) 123-45-67</a>
+    <a href="#" class="btn-secondary" onclick="openAuth(event)">Записатись онлайн</a>
+  </div>
+</section>
+
+<!-- ================================================
+     FOOTER
+     ================================================ -->
+<footer>
+  <div class="footer-logo">AUTO<span>MASTER</span></div>
+  <div class="footer-text">© 2024 AutoMaster СТО. Всі права захищені.</div>
+  <div class="footer-text">Київ, вул. Механічна, 42</div>
+</footer>
+
+<!-- ================================================
+     JAVASCRIPT
+     ================================================ -->
+<script>
+  /* ── AUTH (localStorage) ── */
+  const USERS_KEY   = 'automaster_users';
+  const SESSION_KEY = 'automaster_session';
+
+  function getUsers()       { return JSON.parse(localStorage.getItem(USERS_KEY)   || '{}');   }
+  function saveUsers(u)     { localStorage.setItem(USERS_KEY, JSON.stringify(u));              }
+  function getSession()     { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
+  function saveSession(u)   { localStorage.setItem(SESSION_KEY, JSON.stringify(u));            }
+  function clearSession()   { localStorage.removeItem(SESSION_KEY);                            }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
+    });
+    document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+    document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('regError').textContent   = '';
+  }
+
+  function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPass').value;
+    const err   = document.getElementById('loginError');
+    if (!email || !pass)        { err.textContent = 'Заповніть всі поля';         return; }
+    const users = getUsers();
+    if (!users[email])          { err.textContent = 'Користувача не знайдено';    return; }
+    if (users[email].password !== pass) { err.textContent = 'Невірний пароль';   return; }
+    saveSession({ email, name: users[email].name });
+    closeAuth();
+  }
+
+  function doRegister() {
+    const name  = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass  = document.getElementById('regPass').value;
+    const err   = document.getElementById('regError');
+    if (!name || !email || !pass) { err.textContent = 'Заповніть всі поля';              return; }
+    if (pass.length < 6)          { err.textContent = 'Пароль мінімум 6 символів';       return; }
+    if (!email.includes('@'))     { err.textContent = 'Невірний формат email';            return; }
+    const users = getUsers();
+    if (users[email])             { err.textContent = 'Цей email вже зареєстровано';      return; }
+    users[email] = { name, password: pass };
+    saveUsers(users);
+    saveSession({ email, name });
+    closeAuth();
+  }
+
+  function closeAuth() {
+    document.getElementById('authOverlay').classList.add('hidden');
+    updateNavUI();
+  }
+
+  function doLogout() {
+    clearSession();
+    updateNavUI();
+  }
+
+  function openAuth(e) {
+    if (getSession()) return;
+    e.preventDefault();
+    document.getElementById('authOverlay').classList.remove('hidden');
+  }
+
+  function updateNavUI() {
+    const session    = getSession();
+    const navUser    = document.getElementById('navUser');
+    const logoutBtn  = document.getElementById('logoutBtn');
+    const navAuthBtn = document.getElementById('navAuthBtn');
+    if (session) {
+      navUser.textContent         = session.name;
+      logoutBtn.style.display     = 'inline-block';
+      navAuthBtn.textContent      = 'Записатись онлайн';
+      navAuthBtn.onclick          = null;
+    } else {
+      navUser.textContent         = '';
+      logoutBtn.style.display     = 'none';
+      navAuthBtn.textContent      = 'Записатись';
+      navAuthBtn.onclick          = openAuth;
+    }
+  }
+
+  /* Закрити модалку кліком на оверлей */
+  document.getElementById('authOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeAuth();
+  });
+
+  /* Enter у полях форми */
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    if (!document.getElementById('loginForm').classList.contains('hidden'))    doLogin();
+    else if (!document.getElementById('registerForm').classList.contains('hidden')) doRegister();
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── INIT ── */
+  updateNavUI();
+
+  /* Показати auth при першому завантаженні */
+  setTimeout(() => {
+    if (!getSession()) document.getElementById('authOverlay').classList.remove('hidden');
+  }, 800);
+</script>
+</body>
+</html>

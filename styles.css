@@ -1,0 +1,1340 @@
+/* =============================================================
+   AutoMaster СТО — Таблиця каскадних стилів
+   Лабораторна робота №2
+   Тема: Каскадні таблиці стилів (CSS)
+   ============================================================= */
+
+
+/* ─────────────────────────────────────────────
+   1. CSS ЗМІННІ (Custom Properties)
+   Визначаються в :root — глобальний scope
+   Демонструють механізм каскаду: дочірні елементи
+   успадковують змінні від батьківського :root
+───────────────────────────────────────────── */
+:root {
+  /* Кольорова палітра */
+  --color-black:      #0a0a0a;
+  --color-dark:       #111214;
+  --color-card:       #1a1c20;
+  --color-border:     #2a2d33;
+  --color-red:        #e63329;
+  --color-red-dark:   #c0261d;
+  --color-orange:     #f07d2a;
+  --color-white:      #f5f3ef;
+  --color-muted:      #7a7d85;
+  --color-text:       #d0cec9;
+
+  /* Типографіка */
+  --font-display:     'Bebas Neue', sans-serif;
+  --font-condensed:   'Barlow Condensed', sans-serif;
+  --font-body:        'Barlow', sans-serif;
+
+  /* Відступи */
+  --spacing-xs:   8px;
+  --spacing-sm:   16px;
+  --spacing-md:   32px;
+  --spacing-lg:   64px;
+  --spacing-xl:   100px;
+
+  /* Радіуси */
+  --radius-sm:  2px;
+  --radius-md:  4px;
+  --radius-lg:  12px;
+
+  /* Переходи */
+  --transition-fast:   0.2s ease;
+  --transition-medium: 0.4s ease;
+}
+
+
+/* ─────────────────────────────────────────────
+   2. СЕЛЕКТОРИ — Типи та специфічність
+   Специфічність (від низької до високої):
+   елемент (0,0,1) < клас (0,1,0) < id (1,0,0) < inline
+───────────────────────────────────────────── */
+
+/* Тип-селектор — найнижча специфічність */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-black);
+  color: var(--color-text);
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Шум-текстура через псевдоелемент ::before */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* Клас-селектор (.classname) — середня специфічність */
+.hidden {
+  display: none !important;
+}
+
+/* Посилання */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* ─────────────────────────────────────────────
+   3. КАСКАД: успадкування (inheritance)
+   font-*, color, line-height успадковуються.
+   background, border — НЕ успадковуються.
+───────────────────────────────────────────── */
+
+/* Батьківський елемент — children успадкують font-family */
+.nav-links {
+  display: flex;
+  gap: var(--spacing-md);
+  list-style: none;
+  margin: 0 auto;
+  font-family: var(--font-condensed); /* успадковується дочірніми <a> */
+  font-size: 0.85rem;
+}
+
+/* Дочірній елемент успадковує font-family від .nav-links */
+.nav-links a {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-muted);          /* перевизначення кольору */
+  transition: color var(--transition-fast);
+}
+
+/* Псевдоклас :hover — змінює стиль при наведенні */
+.nav-links a:hover {
+  color: var(--color-white);
+}
+
+
+/* ─────────────────────────────────────────────
+   4. НАВІГАЦІЯ
+───────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* vendor prefix для Safari */
+  border-bottom: 1px solid var(--color-border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--color-white);
+  letter-spacing: 3px;
+  flex-shrink: 0;
+}
+
+/* Каскадний дочірній селектор: .nav-logo span */
+.nav-logo span {
+  color: var(--color-red); /* перевизначає успадкований color */
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.nav-user {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  font-family: var(--font-condensed);
+  letter-spacing: 1px;
+}
+
+/* Кнопка-посилання */
+.nav-cta {
+  background: var(--color-red);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-block;
+  transition: background var(--transition-fast);
+}
+
+.nav-cta:hover {
+  background: var(--color-red-dark);
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Псевдоклас :hover на .logout-btn */
+.logout-btn:hover {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+
+/* ─────────────────────────────────────────────
+   5. ПСЕВДОЕЛЕМЕНТИ ТА ПСЕВДОКЛАСИ
+   ::before / ::after — генерований контент
+   :hover / :focus / :first-child / :nth-child
+───────────────────────────────────────────── */
+
+/* ::before — декоративна вертикальна лінія */
+.auth-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--color-red);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+/* ::before з текстом для лейблів секцій */
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-red);
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.hero-label::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 2px;
+  background: var(--color-red);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+/* ::after для анімованого підкреслення карток */
+.service-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--color-red);
+  transition: width 0.3s ease;
+}
+
+.service-card:hover::after {
+  width: 100%;
+}
+
+/* :nth-child — кожна парна картка відгуку */
+.review-card:nth-child(even) {
+  margin-top: 24px; /* зміщення для візуального ефекту */
+}
+
+/* :first-child / :last-child */
+.how-step:last-child {
+  border-bottom: none;
+}
+
+.stat-item:last-child {
+  border-right: none;
+}
+
+
+/* ─────────────────────────────────────────────
+   6. AUTH МОДАЛЬНЕ ВІКНО
+───────────────────────────────────────────── */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.auth-modal {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  width: 420px;
+  max-width: 95vw;
+  padding: 48px 40px;
+  position: relative;
+}
+
+.auth-logo {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--color-white);
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+
+.auth-logo span {
+  color: var(--color-red);
+}
+
+.auth-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 36px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.auth-tabs {
+  display: flex;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.auth-tab {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: var(--color-muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* :focus — доступність (accessibility) */
+.auth-tab:focus {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+.auth-tab.active {
+  color: var(--color-white);
+  border-bottom-color: var(--color-red);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.auth-input-group label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+.auth-input {
+  width: 100%;
+  background: var(--color-dark);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+/* :focus-within — батьківський елемент коли дочірній в фокусі */
+.auth-input-group:focus-within label {
+  color: var(--color-red);
+}
+
+.auth-input:focus {
+  border-color: var(--color-red);
+}
+
+/* ::placeholder — стилізація placeholder тексту */
+.auth-input::placeholder {
+  color: var(--color-border);
+  font-style: italic;
+}
+
+.auth-btn {
+  margin-top: var(--spacing-xs);
+  background: var(--color-red);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform 0.1s;
+}
+
+.auth-btn:hover {
+  background: var(--color-red-dark);
+  transform: translateY(-1px);
+}
+
+/* :active — стан при кліку */
+.auth-btn:active {
+  transform: translateY(0);
+}
+
+.auth-error {
+  font-size: 0.8rem;
+  color: var(--color-red);
+  text-align: center;
+  min-height: 18px;
+  letter-spacing: 0.5px;
+}
+
+
+/* ─────────────────────────────────────────────
+   7. HERO СЕКЦІЯ
+───────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  padding-top: 64px;
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 60px;
+  align-items: center;
+  padding-left: 80px;
+  padding-right: 80px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Псевдоелемент ::after для фонового градієнту */
+#hero::after {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(230, 51, 41, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-label {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--color-red);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 7rem); /* clamp() — адаптивний розмір */
+  line-height: 0.92;
+  color: var(--color-white);
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+/* Каскадний дочірній: .hero-title .accent */
+.hero-title .accent {
+  color: var(--color-red);
+}
+
+.hero-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  max-width: 440px;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.hero-btns {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Спільні стилі для обох кнопок через групування */
+.btn-primary,
+.btn-secondary {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  padding: 16px 36px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-block;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--color-red);
+  color: var(--color-white);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--color-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(230, 51, 41, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-white);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+/* Hero Image */
+.hero-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+.hero-image-inner {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1c20 0%, #111214 50%, #1e0f0d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-car-icon {
+  font-size: 8rem;
+  opacity: 0.08;
+  filter: blur(1px);
+}
+
+.hero-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(230, 51, 41, 0.05) 0%, transparent 50%);
+}
+
+/* Бейджі позиціонуються абсолютно відносно .hero-image-box */
+.hero-image-box {
+  position: relative;
+}
+
+.hero-badge {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  background: var(--color-red);
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+}
+
+.hero-badge-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--color-white);
+  line-height: 1;
+}
+
+.hero-badge-text {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 3px;
+}
+
+.hero-badge2 {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-badge2-icon {
+  font-size: 1.4rem;
+}
+
+.hero-badge2-val {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-white);
+  letter-spacing: 1px;
+}
+
+.hero-badge2-text {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+}
+
+
+/* ─────────────────────────────────────────────
+   8. ЛОГОТИПИ (Logos bar)
+───────────────────────────────────────────── */
+#logos {
+  padding: 32px 80px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-dark);
+}
+
+.logos-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.logo-item {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  color: var(--color-border);
+  transition: color var(--transition-medium);
+}
+
+.logo-item:hover {
+  color: var(--color-muted);
+}
+
+
+/* ─────────────────────────────────────────────
+   9. СЕКЦІЇ — загальні стилі
+───────────────────────────────────────────── */
+section {
+  position: relative;
+}
+
+/* Перевикористовуваний клас заголовка секції */
+.section-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 60px;
+  align-items: end;
+}
+
+.section-label {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--color-red);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--color-white);
+  line-height: 0.95;
+  letter-spacing: 1px;
+}
+
+.section-desc {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 380px;
+  align-self: end;
+}
+
+
+/* ─────────────────────────────────────────────
+   10. ПОСЛУГИ
+───────────────────────────────────────────── */
+#services {
+  padding: var(--spacing-xl) 80px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.service-card {
+  background: var(--color-dark);
+  padding: 36px 32px;
+  transition: background var(--transition-fast);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card:hover {
+  background: var(--color-card);
+}
+
+/* Модифікатор BEM: .service-card--featured */
+.service-card.featured {
+  background: var(--color-red);
+}
+
+/* Каскад: .service-card.featured дочірні елементи */
+.service-card.featured .service-icon,
+.service-card.featured .service-name,
+.service-card.featured .service-text {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Пунктирна карта */
+.service-card.dashed {
+  background: transparent;
+  border: 2px dashed var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.service-card.dashed span {
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-border);
+}
+
+.service-icon {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.service-name {
+  font-family: var(--font-condensed);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-white);
+  margin-bottom: 10px;
+}
+
+.service-text {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+
+/* ─────────────────────────────────────────────
+   11. ЯК ЦЕ ПРАЦЮЄ
+───────────────────────────────────────────── */
+#how {
+  padding: var(--spacing-xl) 80px;
+  background: var(--color-dark);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.how-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.how-step {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.how-step-num {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--color-border);
+  flex-shrink: 0;
+  width: 60px;
+  transition: color var(--transition-fast);
+}
+
+/* Каскад через батька: .how-step:hover > .how-step-num */
+.how-step:hover .how-step-num {
+  color: var(--color-red);
+}
+
+.how-step-title {
+  font-family: var(--font-condensed);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-white);
+  margin-bottom: 8px;
+}
+
+.how-step-text {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* Телефонний мокап */
+.how-phone {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-mockup {
+  width: 260px;
+  background: var(--color-card);
+  border-radius: 28px;
+  border: 2px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+}
+
+.phone-notch {
+  display: block;
+  width: 80px;
+  height: 8px;
+  background: var(--color-black);
+  border-radius: var(--radius-md);
+  margin: 12px auto 0;
+}
+
+.phone-header {
+  background: var(--color-red);
+  padding: 20px 20px 16px;
+}
+
+.phone-header-text {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.phone-header-sub {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.phone-body {
+  padding: 20px;
+}
+
+.phone-row {
+  height: 12px;
+  background: var(--color-border);
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+
+/* :nth-child для рядків телефону */
+.phone-row:nth-child(odd) {
+  width: 85%;
+}
+
+.phone-row:nth-child(even) {
+  width: 70%;
+  opacity: 0.6;
+}
+
+.phone-card {
+  background: var(--color-dark);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 16px;
+}
+
+.phone-card-title {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: 10px;
+}
+
+.phone-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.phone-progress-fill {
+  flex: 1;
+  height: 6px;
+  background: var(--color-red);
+  border-radius: 3px;
+}
+
+.phone-progress-label {
+  font-size: 0.7rem;
+  color: var(--color-red);
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+}
+
+.phone-mini-row {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+
+/* ─────────────────────────────────────────────
+   12. СТАТИСТИКА (банер)
+───────────────────────────────────────────── */
+#stats {
+  background: var(--color-red);
+  overflow: hidden;
+}
+
+.stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.stat-item {
+  padding: 48px 40px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background var(--transition-fast);
+}
+
+.stat-item:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  color: var(--color-white);
+  letter-spacing: 2px;
+  line-height: 1;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 8px;
+  display: block;
+}
+
+
+/* ─────────────────────────────────────────────
+   13. ВІДГУКИ
+───────────────────────────────────────────── */
+#reviews {
+  padding: var(--spacing-xl) 80px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.review-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-red);
+}
+
+.review-stars {
+  color: var(--color-orange);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.review-name {
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.review-car {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+
+/* ─────────────────────────────────────────────
+   14. CTA СЕКЦІЯ
+───────────────────────────────────────────── */
+#cta {
+  padding: 120px 80px;
+  text-align: center;
+  background: var(--color-dark);
+  border-top: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+#cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(230, 51, 41, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  color: var(--color-white);
+  letter-spacing: 2px;
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+
+.cta-title .accent {
+  color: var(--color-red);
+}
+
+.cta-text {
+  font-size: 1rem;
+  color: var(--color-muted);
+  max-width: 500px;
+  margin: 0 auto 44px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.cta-btns {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.cta-label {
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+/* ─────────────────────────────────────────────
+   15. FOOTER
+───────────────────────────────────────────── */
+footer {
+  background: var(--color-black);
+  border-top: 1px solid var(--color-border);
+  padding: 24px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  color: var(--color-muted);
+}
+
+.footer-logo span {
+  color: var(--color-red);
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  letter-spacing: 1px;
+}
+
+
+/* ─────────────────────────────────────────────
+   16. АНІМАЦІЇ (@keyframes)
+───────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Утиліти анімацій */
+.animate-in {
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ─────────────────────────────────────────────
+   17. КАСТОМНИЙ СКРОЛБАР
+───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red);
+}
+
+
+/* ─────────────────────────────────────────────
+   18. МЕДІА-ЗАПИТИ (Responsive Design)
+   Демонструє каскад: медіа-запити перевизначають
+   базові стилі при певних умовах
+───────────────────────────────────────────── */
+
+/* Планшет (≤ 1024px) */
+@media (max-width: 1024px) {
+  #hero {
+    grid-template-columns: 1fr;
+    padding: 100px 40px 60px;
+    text-align: center;
+  }
+
+  #hero::after { display: none; }
+
+  .hero-btns {
+    justify-content: center;
+  }
+
+  .hero-image-box {
+    display: none;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #how {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-xl) 40px;
+  }
+
+  .how-phone { display: none; }
+
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-item:nth-child(2) { border-right: none; }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* При планшеті скасовуємо зміщення парних карток */
+  .review-card:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .section-header {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Мобільний (≤ 768px) */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 20px;
+  }
+
+  .nav-links { display: none; }
+
+  #hero {
+    padding: 100px 20px 60px;
+  }
+
+  #logos,
+  #services,
+  #reviews,
+  #cta {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  footer {
+    padding: 24px 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-item {
+    padding: 32px 20px;
+  }
+
+  #how {
+    padding: 60px 20px;
+  }
+}
